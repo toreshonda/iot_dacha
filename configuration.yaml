@@ -10,3 +10,14 @@ group: !include groups.yaml
 automation: !include automations.yaml
 script: !include scripts.yaml
 scene: !include scenes.yaml
+
+
+
+mqtt:
+## Выбрать один из вариантов для брокера!  
+  broker: core-mosquitto  # Локальный брокер
+  #broker: IP adress  # Внешний брокер
+  discovery: true
+  discovery_prefix: homeassistant  
+  username: toresmqtt
+  password: 1q2wTores3e4r@
