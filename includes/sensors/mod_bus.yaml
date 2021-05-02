@@ -1,0 +1,49 @@
+- platform: modbus
+  scan_interval: 10
+  registers:
+    - name: Напряжение
+      unit_of_measurement: V
+      register: 0
+      register_type: input
+      count: 2
+      slave: 1
+      precision: 2
+      data_type: float
+
+    - name: Сила тока
+      unit_of_measurement: A
+      register: 6
+      register_type: input
+      count: 2
+      slave: 1
+      precision: 2
+      data_type: float
+
+    - name: Текущая мощность
+      unit_of_measurement: W
+      register: 12
+      register_type: input
+      count: 2
+      slave: 1
+      precision: 2
+      data_type: float
+      # reverse_order: true
+
+    - name: Частота сети
+      unit_of_measurement: Hz
+      register: 70
+      register_type: input
+      count: 2
+      slave: 1
+      precision: 2
+      data_type: float
+
+    - name: Накапало
+      unit_of_measurement: kwh
+      register: 342
+      register_type: input
+      count: 2
+      slave: 1
+      precision: 2
+      offset: 115
+      data_type: float

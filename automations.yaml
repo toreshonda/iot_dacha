@@ -1,1 +1,59 @@
-[]
+- id: '1617964501413'
+  alias: tores_incoming_to_Dacha
+  description: Я приехал на дачу и надо отправить нотификацию
+  trigger:
+  - platform: zone
+    entity_id: device_tracker.life360_sergei_zhibul
+    zone: zone.home
+    event: enter
+  - platform: zone
+    entity_id: device_tracker.sm_a715f
+    zone: zone.home
+    event: enter
+  - platform: zone
+    entity_id: person.tores
+    zone: zone.home
+    event: enter
+  condition: []
+  action:
+  - service: telegram_bot.send_message
+    data:
+      message: Tores приехал на дачу
+  mode: single
+- id: '1618759390109'
+  alias: door_dacha_open
+  description: ''
+  trigger:
+  - type: opened
+    platform: device
+    device_id: c32841994b81398898c64ea04992a6f8
+    entity_id: binary_sensor.inter_door_contact
+    domain: binary_sensor
+  condition:
+  - condition: not
+    conditions:
+    - condition: zone
+      entity_id: device_tracker.life360_sergei_zhibul
+      zone: zone.home
+    - condition: zone
+      entity_id: device_tracker.sm_a715f
+      zone: zone.home
+    - condition: zone
+      entity_id: person.tores
+      zone: zone.home
+  action:
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 3
+      milliseconds: 0
+  - service: camera.snapshot
+    target:
+      entity_id: camera.camera03_profile_000
+    data:
+      filename: /config/www/tmp/temp_{{now().strftime("%Y%m%d-%H:%M:%S")}}.jpg
+  - service: telegram_bot.send_photo
+    data:
+      file: /config/www/tmp/temp_{{now().strftime("%Y%m%d-%H:%M:%S")}}.jpg
+      caption: ALARM!!!!  {{now().strftime("%Y.%m.%d-%H:%M:%S")}}
+  mode: single

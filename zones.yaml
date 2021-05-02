@@ -1,11 +1,23 @@
  - name: Home
    latitude: !secret latitude_home
    longitude: !secret longitude_home
-   radius: 150
-   icon: mdi:home
+   radius: 85
+   icon: mdi:home-automation
   
  - name: Office
    latitude: !secret latitude_work
    longitude: !secret longitude_work
-   radius: 350
+   radius: 60
+   icon: mdi:office-building-marker
+   
+ - name: Base
+   latitude: !secret latitude_base
+   longitude: !secret longitude_base
+   radius: 70
    icon: mdi:city
+
+ - name: Tucha
+   latitude: !secret latitude_tucha
+   longitude: !secret longitude_tucha
+   radius: 80
+   icon: mdi:shield-home

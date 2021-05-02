@@ -1,0 +1,18 @@
+  - platform: template
+    sensors:
+      daily_energy:
+        friendly_name: Daily Energy
+        unit_of_measurement: kWh
+        value_template: "{{ states('sensor.daily_energy')|float }}"
+      monthly_energy:
+        friendly_name: Monthly Energy
+        unit_of_measurement: kWh
+        value_template: "{{ states('sensor.monthly_energy')|float }}"
+      previus_day_energy:
+        friendly_name: Потрачено вчера
+        unit_of_measurement: kWh
+        value_template: "{{ state_attr('sensor.daily_energy_2', 'last_period') }}"
+      previus_month_energy:
+        friendly_name: Потрачено в прошлом месяце
+        unit_of_measurement: kWh
+        value_template: "{{ state_attr('sensor.monthly_energy_2', 'last_period') }}"

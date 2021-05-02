@@ -1,0 +1,49 @@
+- alias: "Telegram bot that reply pong to ping"
+  trigger:
+    platform: event
+    event_type: telegram_command
+    event_data:
+      command: "/start"
+  action:
+    - service: notify.me
+      data:
+        message: "commands"
+        data:
+          keyboard:
+            - "/ping, /give_me_kWh"
+
+- alias: "Telegram bot that reply pong to ping"
+  trigger:
+    platform: event
+    event_type: telegram_command
+    event_data:
+      command: "/ping"
+  action:
+    - service: notify.me
+      data:
+        message: "pong"
+
+- alias: "Telegram bot that reply sensors data"
+  trigger:
+    platform: event
+    event_type: telegram_command
+    event_data:
+      command: "/give_me_kWh"
+  action:
+    - service: notify.me
+      data_template:
+        message: "Натикало {{ states('sensor.nakapalo') }} кВатт"
+
+- alias: "Internet Speed Glow Connect Great"
+  trigger:
+    - platform: template
+      value_template: "{{ states('sensor.speedtest_download')|float >= 10 }}"
+  action:
+    - service: shell_command.green
+
+- alias: "Internet Speed Glow Connect Poor"
+  trigger:
+    - platform: template
+      value_template: "{{ states('sensor.speedtest_download')|float < 10 }}"
+  action:
+    - service: shell_command.red

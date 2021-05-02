@@ -1,18 +1,21 @@
 homeassistant:
+#  customize: !include_dir_merge_named includes/customize
   customize: !include customize.yaml
+  packages: !include_dir_merge_named includes/packages
   name: IoT Dacha
   latitude: !secret latitude_home
   longitude: !secret longitude_home
   elevation: 201
   unit_system: metric
   time_zone: Europe/Minsk
-#  external_url: "https://naliboki.tech"
-#  internal_url: "https://192.168.1.105:8123"
+  #  external_url: "https://naliboki.tech"
+  #  internal_url: "https://192.168.1.105:8123"
   auth_providers:
     - type: homeassistant
     - type: trusted_networks
       trusted_networks:
         - 192.168.1.0/24
+        - 192.168.100.0/24
         - 178.124.206.28/32
         - 82.209.247.130/32
   allowlist_external_dirs:
@@ -24,18 +27,95 @@ default_config:
 tts:
   - platform: google_translate
 
+
+sensor: !include_dir_merge_list includes/sensor
 group: !include groups.yaml
-automation: !include automations.yaml
+automation ui: !include automations.yaml
+automation manual: !include_dir_merge_list includes/automation
 script: !include scripts.yaml
 scene: !include scenes.yaml
 zone: !include zones.yaml
 
+http:
+  #server_port: 
+  #ssl_certificate: /etc/letsencrypt/live/hass.example.com/fullchain.pem
+  #ssl_key: /etc/letsencrypt/live/hass.example.com/privkey.pem
+  #cors_allowed_origins:
+  #  - https://google.com
+  #  - https://www.home-assistant.io
+  ip_ban_enabled: true
+  login_attempts_threshold: 3
+
+modbus:
+  type: serial
+  method: rtu
+  port: /dev/ttyUSB0
+  baudrate: 9600
+  stopbits: 1
+  bytesize: 8
+  parity: N
+
+media_player:
+  # Use the Python ADB implementation
+  - platform: androidtv
+    name: Android TV TLC
+    host: 192.168.1.110
 
 mqtt:
-## Выбрать один из вариантов для брокера!  
-  broker: core-mosquitto  # Локальный брокер
+  ## Выбрать один из вариантов для брокера!
+  broker: core-mosquitto # Локальный брокер
   #broker: IP adress  # Внешний брокер
   discovery: true
-  discovery_prefix: homeassistant  
+  discovery_prefix: homeassistant
   username: toresmqtt
   password: 1q2wTores3e4r@
+
+telegram_bot:
+  - platform: polling
+    api_key: !secret telegram_bot_api_key
+    allowed_chat_ids:
+      - !secret telegram_bot_chat_id
+
+notify:
+  - name: me
+    platform: telegram
+    chat_id: !secret telegram_bot_chat_id
+
+
+influxdb:
+  username: homeassistant
+  password: !secret influxdb_password
+  max_retries: 3
+  default_measurement: state
+  include:
+    entities:
+      - sensor.nakapalo
+      - sensor.napriazhenie
+      - sensor.tekushchaia_moshchnost
+      - sensor.sila_toka
+      - sensor.myups_battery_voltage
+      - sensor.myups_input_voltage
+      - sensor.myups_output_voltage
+  component_config:
+    sensor.nakapalo:
+      override_measurement: kWh
+    sensor.napriazhenie:
+      override_measurement: V
+    sensor.tekushchaia_moshchnost:
+      override_measurement: W
+    sensor.sila_toka:
+      override_measurement: A
+    sensor.myups_battery_voltage:
+      override_measurement: V
+    sensor.myups_input_voltage:
+      override_measurement: V
+    sensor.myups_output_voltage:
+      override_measurement: V
+
+utility_meter:
+  energy_day:
+    source: sensor.nakapalo
+    cycle: daily
+  energy_month:
+    source: sensor.nakapalo
+    cycle: monthly
