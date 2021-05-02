@@ -1,4 +1,22 @@
-
+homeassistant:
+  customize: !include customize.yaml
+  name: IoT Dacha
+  latitude: !secret latitude_home
+  longitude: !secret longitude_home
+  elevation: 201
+  unit_system: metric
+  time_zone: Europe/Minsk
+#  external_url: "https://naliboki.tech"
+#  internal_url: "https://192.168.1.105:8123"
+  auth_providers:
+    - type: homeassistant
+    - type: trusted_networks
+      trusted_networks:
+        - 192.168.1.0/24
+        - 178.124.206.28/32
+        - 82.209.247.130/32
+  allowlist_external_dirs:
+    - "/tmp"
 # Configure a default setup of Home Assistant (frontend, api, etc)
 default_config:
 
@@ -10,7 +28,7 @@ group: !include groups.yaml
 automation: !include automations.yaml
 script: !include scripts.yaml
 scene: !include scenes.yaml
-
+zone: !include zones.yaml
 
 
 mqtt:
