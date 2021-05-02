@@ -1,0 +1,33 @@
+# Cтоимость по 1 тарифу
+
+  - platform: template
+    sensors:
+      money_dayli_now:
+        friendly_name: "Стоимость за текущий день"
+        unit_of_measurement: 'BYN'
+        value_template: "{{ (states.sensor.daily_energy_2.state | float * 0.23)|round(2) }}"
+        icon_template: mdi:square-inc-cash
+  
+  - platform: template
+    sensors:
+      money_dayli_last:
+        friendly_name: "Стоимость за вчерашний день"
+        unit_of_measurement: 'BYN'
+        value_template: "{{ (state_attr('sensor.daily_energy_2', 'last_period' )| float * 0.23)|round(2) }}"
+        icon_template: mdi:square-inc-cash 
+    
+  - platform: template
+    sensors:
+      money_month_now:
+        friendly_name: "Стоимость за текущий месяц"
+        unit_of_measurement: 'BYN'
+        value_template: "{{ (states.sensor.monthly_energy_2.state | float * 0.23)|round(2) }}"
+        icon_template: mdi:square-inc-cash 
+
+  - platform: template
+    sensors:
+      money_month_last:
+        friendly_name: "Стоимость за предыдущий месяц"
+        unit_of_measurement: 'BYN'
+        value_template: "{{ (state_attr('sensor.monthly_energy_2', 'last_period' )| float * 0.23)|round(2) }}"
+        icon_template: mdi:square-inc-cash 
