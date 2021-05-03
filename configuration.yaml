@@ -119,3 +119,8 @@ utility_meter:
   energy_month:
     source: sensor.nakapalo
     cycle: monthly
+
+    
+sonoff:
+  username: tores.honda@gmail.com
+  password: 1q2wroot3e4r
