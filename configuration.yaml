@@ -46,14 +46,14 @@ http:
   ip_ban_enabled: true
   login_attempts_threshold: 3
 
-modbus:
-  type: serial
-  method: rtu
-  port: /dev/ttyUSB1
-  baudrate: 9600
-  stopbits: 1
-  bytesize: 8
-  parity: N
+# modbus:
+#   type: serial
+#   method: rtu
+#   port: /dev/ttyUSB1
+#   baudrate: 9600
+#   stopbits: 1
+#   bytesize: 8
+#   parity: N
 
 media_player:
   # Use the Python ADB implementation
@@ -82,35 +82,35 @@ notify:
     chat_id: !secret telegram_bot_chat_id
 
 
-influxdb:
-  username: homeassistant
-  password: !secret influxdb_password
-  max_retries: 3
-  default_measurement: state
-  include:
-    entities:
-      - sensor.nakapalo
-      - sensor.napriazhenie
-      - sensor.tekushchaia_moshchnost
-      - sensor.sila_toka
-      - sensor.myups_battery_voltage
-      - sensor.myups_input_voltage
-      - sensor.myups_output_voltage
-  component_config:
-    sensor.nakapalo:
-      override_measurement: kWh
-    sensor.napriazhenie:
-      override_measurement: V
-    sensor.tekushchaia_moshchnost:
-      override_measurement: W
-    sensor.sila_toka:
-      override_measurement: A
-    sensor.myups_battery_voltage:
-      override_measurement: V
-    sensor.myups_input_voltage:
-      override_measurement: V
-    sensor.myups_output_voltage:
-      override_measurement: V
+# influxdb:
+#   username: homeassistant
+#   password: !secret influxdb_password
+#   max_retries: 3
+#   default_measurement: state
+#   include:
+#     entities:
+#       - sensor.nakapalo
+#       - sensor.napriazhenie
+#       - sensor.tekushchaia_moshchnost
+#       - sensor.sila_toka
+#       - sensor.myups_battery_voltage
+#       - sensor.myups_input_voltage
+#       - sensor.myups_output_voltage
+#   component_config:
+#     sensor.nakapalo:
+#       override_measurement: kWh
+#     sensor.napriazhenie:
+#       override_measurement: V
+#     sensor.tekushchaia_moshchnost:
+#       override_measurement: W
+#     sensor.sila_toka:
+#       override_measurement: A
+#     sensor.myups_battery_voltage:
+#       override_measurement: V
+#     sensor.myups_input_voltage:
+#       override_measurement: V
+#     sensor.myups_output_voltage:
+#       override_measurement: V
 
 utility_meter:
   energy_day:
